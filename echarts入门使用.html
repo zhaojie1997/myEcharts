@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echarts入门使用</title>
+</head>
+
+<style>
+    .box{
+        width: 500px;
+        height: 500px;
+        /* background-color: blue; */
+    }
+</style>
+<body>
+    <div class="box" id="box">
+        
+    </div>
+    <div>
+        - series
+
+  - 系列列表。每个系列通过 `type` 决定自己的图表类型
+  - 大白话：图标数据，指定什么类型的图标，可以多个图表重叠。
+
+- xAxis：直角坐标系 grid 中的 x 轴
+
+  - boundaryGap: 坐标轴两边留白策略 true，这时候刻度只是作为分隔线，标签和数据点都会在两个刻度之间的带(band)中间。
+
+- yAxis：直角坐标系 grid 中的 y 轴
+
+- grid：直角坐标系内绘图网格。 
+
+- title：标题组件
+
+- tooltip：提示框组件
+
+- legend：图例组件
+
+- color：调色盘颜色列表
+数据堆叠，同个类目轴上系列配置相同的`stack`值后 后一个系列的值会在前一个系列的值上相加。
+
+        legend 图例组件
+        textStyle: { //legend组件的
+            color: '#4c9bfd' // 图例文字颜色
+          },
+
+
+        color: ['pink', 'red', 'green', 'skyblue'] color设置我们线条的颜色 注意后面是个数组
+        trigger 触发方式
+        show:false 显示/不显示  true/false
+
+        axisLabel 刻度标签（文字）的样式
+        axisLabel:{ //文本颜色  文字大小为
+            textStyle: {
+                color: "rgba(255,255,255,.6)",
+                fontSize: 12
+              }
+        }
+
+
+        axisLine 轴线
+        axisLine:{ 
+            lineStyle:{  //轴线样式
+                color:"rgba(255,255,255,.1)",
+                width: 2,
+                type: "solid"
+            }
+        },
+
+        splitLine: {  //分割线
+            lineStyle: { //样式
+                color: '#012f4a' // 分割线颜色
+            }
+        }
+
+        axisTick 刻度
+        
+        boundaryGap 轴两端内间距 true/false
+
+        grid  网格配置  grid可以控制线形图 柱状图 图表大小
+        containLabel: true  是否显示刻度标签 如果是true 就显示 否则反之 在grid中
+
+        toolbox 工具箱组件  可以另存为图片等功能
+
+        itemStyle: { /
+            // 修改柱子圆角
+            barBorderRadius: 5
+        },
+
+
+        label:{//显示柱子内的文字
+            show: true,
+            // 图形内显示
+            position: "inside",
+            // 文字的显示格式 // {c} 会自动的解析为 数据  data里面的数据
+            formatter: "{c}%"
+        }
+        <!-- series -->
+        yAxisIndex  层级  相当于z-index
+
+        inverse 反向坐标
+
+        smooth 把折线修饰为圆滑 true/false
+
+
+        areaStyle 渐变色
+        // 设置拐点 小圆点
+        symbol: "circle",
+        // 拐点大小
+        symbolSize: 8,
+        // 设置拐点颜色以及边框
+        itemStyle: {
+            color: "#0184d5",
+            borderColor: "rgba(221, 220, 107, .1)",
+            borderWidth: 12
+        },
+
+        <!-- 饼形图 -->
+
+        // 小图标的宽度和高度
+        legend: {
+            bottom:"0%",
+            // 小图标的宽度和高度
+            itemWidth: 10,
+            itemHeight: 10,
+            // 修改图例组件的文字为 12px
+            textStyle: {
+                color: "rgba(255,255,255,.5)",
+                fontSize: "12"
+            }
+        },
+        <!-- series中 -->
+        radius: ["40%", "60%"],  //第一个值时内圆的半径 第二个值是外圆的半径
+        // 设置饼形图在容器中的位置
+        center: ["50%", "50%"],
+        avoidLabelOverlap: false,
+        label: {// 不显示标签文字
+            show: false,
+        },
+        // 不显示连接线
+        labelLine: { 
+            show: false
+        }, 
+
+        avoidLabelOverlap:是否启⽤防⽌标签重叠策略
+
+        roseType: 'radius',//修改饼形图大小 ( series对象)
+
+        labelLine:{//连接图形和文字的线条
+            length:6,//连接图形的线条
+            length2:8,//连接文字的线条
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // 让图表跟随屏幕自适应
+        window.addEventListener("resize", function() {
+            myChart.resize();
+          });
+
+    </div>
+        <!-- 1.引入echarts -->
+        <script src="js/echarts.min.js"></script>
+    <script>
+          // 2.初始化echarts实例对象  echarts.init(dom容器)  dom容器必须要有宽高
+        var myChart=echarts.init(document.getElementById('box'))
+        // 3.指定配置和数据
+            option = {
+                // 标题组件
+                title: {
+                    text: 'Stacked Line'
+                },
+                // 图表提示框组件
+                tooltip: {
+                    //触发方式
+                    trigger: 'axis'
+                },
+                // 图例组件
+                legend: {
+                    // 如果series有了 name 就可以把legend的data删掉
+                    // data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+                },
+                // 网格配置  可以修改图表大小
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true //图表刻度数字显示
+                },
+                // 工具箱组件
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                // x轴显示
+                xAxis: {
+                    type: 'category',//坐标轴类型
+                    boundaryGap: false,//true图形与刻度数字有缝隙 
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']//数据
+                },
+                // y轴
+                yAxis: {
+                    type: 'value'
+                },
+                // 系列图表  它决定显示那种类型的图表
+                series: [
+                    {
+                        name: 'Email',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: 'Union Ads',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: 'Video Ads',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: 'Direct',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: 'Search Engine',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            };
+        //4.配置实例对象
+        myChart.setOption(option);
+
+            // 让图表跟随屏幕自适应
+    window.addEventListener("resize", function() {
+        myChart.resize();
+      });
+    </script>
+</body>
+</html>
